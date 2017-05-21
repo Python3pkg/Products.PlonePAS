@@ -15,6 +15,7 @@ from Products.PlonePAS.interfaces.plugins import ILocalRolesPlugin
 from Products.PluggableAuthService.plugins.LocalRolePlugin \
     import LocalRolePlugin
 from zope.interface import implementer
+import collections
 
 
 def manage_addLocalRolesManager(dispatcher, id, title=None, RESPONSE=None):
@@ -58,7 +59,7 @@ class LocalRolesManager(LocalRolePlugin):
         while 1:
             local_roles = getattr(object, '__ac_local_roles__', None)
 
-            if local_roles and callable(local_roles):
+            if local_roles and isinstance(local_roles, collections.Callable):
                 local_roles = local_roles()
 
             if local_roles:
@@ -86,7 +87,7 @@ class LocalRolesManager(LocalRolePlugin):
 
             break
 
-        return local.keys()
+        return list(local.keys())
 
     # security.declarePrivate('checkLocalRolesAllowed')
     def checkLocalRolesAllowed(self, user, object, object_roles):
@@ -104,7 +105,7 @@ class LocalRolesManager(LocalRolePlugin):
 
             local_roles = getattr(inner_obj, '__ac_local_roles__', None)
 
-            if local_roles and callable(local_roles):
+            if local_roles and isinstance(local_roles, collections.Callable):
                 local_roles = local_roles()
 
             if local_roles:
@@ -152,14 +153,14 @@ class LocalRolesManager(LocalRolePlugin):
 
             local_roles = getattr(object, '__ac_local_roles__', None)
 
-            if local_roles and callable(local_roles):
+            if local_roles and isinstance(local_roles, collections.Callable):
                 local_roles = local_roles()
 
             if local_roles:
 
                 dict = local_roles
 
-                for principal, localroles in dict.items():
+                for principal, localroles in list(dict.items()):
                     if principal not in roles:
                         roles[principal] = set()
 

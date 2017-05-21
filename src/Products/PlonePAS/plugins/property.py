@@ -40,7 +40,7 @@ manage_addZODBMutablePropertyProviderForm = DTMLFile(
 
 
 def isStringType(data):
-    return isinstance(data, str) or isinstance(data, unicode)
+    return isinstance(data, str) or isinstance(data, str)
 
 
 @implementer(
@@ -160,7 +160,7 @@ class ZODBMutablePropertyProvider(BasePlugin):
         # provide default values where missing
         if not data:
             data = {}
-        for key, val in defaults.items():
+        for key, val in list(defaults.items()):
             if key not in data:
                 data[key] = val
 
@@ -216,7 +216,7 @@ class ZODBMutablePropertyProvider(BasePlugin):
     def testMemberData(self, memberdata, criteria, exact_match=False):
         """Test if a memberdata matches the search criteria.
         """
-        for (key, value) in criteria.items():
+        for (key, value) in list(criteria.items()):
             testvalue = memberdata.get(key, None)
             if testvalue is None:
                 return False
@@ -256,7 +256,7 @@ class ZODBMutablePropertyProvider(BasePlugin):
 
         criteria = copy.copy(kw)
 
-        users = [(user, data) for (user, data) in self._storage.items()
+        users = [(user, data) for (user, data) in list(self._storage.items())
                  if self.testMemberData(data, criteria, exact_match)
                  and not data.get('isGroup', False)]
 

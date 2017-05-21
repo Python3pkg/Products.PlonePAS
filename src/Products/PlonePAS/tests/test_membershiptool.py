@@ -15,7 +15,7 @@ from Products.PlonePAS.tests import dummy
 from Products.PlonePAS.tools.memberdata import MemberData
 from Products.PlonePAS.tools.membership import MembershipTool
 from Products.PlonePAS.utils import getGroupsForPrincipal
-from cStringIO import StringIO
+from io import StringIO
 from plone.app.testing import PLONE_SITE_ID
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import TEST_USER_ID
@@ -110,13 +110,13 @@ class MembershipToolTest(base.TestCase):
         ]
         b = [cleanId(id) for id in a]
         c = [decleanId(id) for id in b]
-        ac = zip(a, c)
+        ac = list(zip(a, c))
         for aa, cc in ac:
             self.assertTrue(aa == cc)
-        cleaned = cleanId(u'abc')
+        cleaned = cleanId('abc')
         self.assertEqual(cleaned, 'abc')
         self.assertTrue(isinstance(cleaned, str))
-        self.assertFalse(isinstance(cleaned, unicode))
+        self.assertFalse(isinstance(cleaned, str))
 
 
 class MemberAreaTest(base.TestCase):
@@ -849,12 +849,12 @@ class TestSearchForMembers(base.TestCase):
 
     def testSearchByRequestObj(self):
         search = self.membership.searchForMembers
-        self.addMember(u'jürgen', u'Jürgen Internationalist',
+        self.addMember('jürgen', 'Jürgen Internationalist',
                        'juergen@example.com', ['Member'],
                        '2014-02-03')
 
         self.assertEqual(
-            len(search(REQUEST=dict(name=u'jürgen'))), 1)
+            len(search(REQUEST=dict(name='jürgen'))), 1)
 
         self.assertEqual(
             len(search(REQUEST=dict(name='jürgen'))), 1)
@@ -898,12 +898,12 @@ class TestMethodProtection(base.TestCase):
         self.assertRaises(Unauthorized, object.restrictedTraverse, method)
 
     for method in _unprotected:
-        exec "def testUnprotected_%s(self):" \
+        exec("def testUnprotected_%s(self):" \
              "    self.assertProtected(self.membership, '%s')" \
-             % (method, method)
+             % (method, method))
 
-        exec "def testMemberAccessible_%s(self):" \
-             "    self.membership.restrictedTraverse('%s')" % (method, method)
+        exec("def testMemberAccessible_%s(self):" \
+             "    self.membership.restrictedTraverse('%s')" % (method, method))
 
 
 class TestMemberInfoView(base.TestCase):

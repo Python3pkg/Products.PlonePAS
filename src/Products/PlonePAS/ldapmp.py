@@ -13,7 +13,7 @@ GROUP_PROPERTY_MAP = {
 }
 
 KNOWN_ATTRS = []
-for attrs in GROUP_PROPERTY_MAP.values():
+for attrs in list(GROUP_PROPERTY_MAP.values()):
     for attr in attrs:
         KNOWN_ATTRS.append(attr)
 KNOWN_ATTRS = set(KNOWN_ATTRS)
@@ -33,7 +33,7 @@ def getPropertiesForUser(self, user, request=None):
     # XXX Should we assert there's only one group?
     properties = {}
     for group in groups:
-        for pname, attrs in GROUP_PROPERTY_MAP.items():
+        for pname, attrs in list(GROUP_PROPERTY_MAP.items()):
             for attr in attrs:
                 value = group.get(attr)
                 if value:

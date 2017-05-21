@@ -44,11 +44,11 @@ class PropertySchemaTypeMap(object):
 PropertySchema = PropertySchemaTypeMap()
 PropertySchema.addType(
     'string',
-    lambda x: x is None or isinstance(x, basestring)
+    lambda x: x is None or isinstance(x, str)
 )
 PropertySchema.addType(
     'text',
-    lambda x: x is None or isinstance(x, basestring)
+    lambda x: x is None or isinstance(x, str)
 )
 PropertySchema.addType(
     'boolean',
@@ -60,7 +60,7 @@ PropertySchema.addType(
 )
 PropertySchema.addType(
     'long',
-    lambda x: x is None or isinstance(x, long)
+    lambda x: x is None or isinstance(x, int)
 )
 PropertySchema.addType(
     'float',
@@ -72,7 +72,7 @@ PropertySchema.addType(
 )
 PropertySchema.addType(
     'selection',
-    lambda x: x is None or isinstance(x, basestring)
+    lambda x: x is None or isinstance(x, str)
 )
 PropertySchema.addType(
     'multiple selection',
@@ -110,7 +110,7 @@ class MutablePropertySheet(UserPropertySheet):
         provider.setPropertiesForUser(user, self)
 
     def setProperties(self, user, mapping):
-        prop_keys = self._properties.keys()
+        prop_keys = list(self._properties.keys())
         prop_update = mapping.copy()
 
         for key, value in tuple(prop_update.items()):

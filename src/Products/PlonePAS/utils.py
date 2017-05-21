@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 from Products.PlonePAS.config import IMAGE_SCALE_PARAMS
 from Products.PluggableAuthService.interfaces.plugins import IGroupsPlugin
-from cStringIO import StringIO
-from urllib import quote as url_quote
-from urllib import unquote as url_unquote
+from io import StringIO
+from urllib.parse import quote as url_quote
+from urllib.parse import unquote as url_unquote
 
 
 def unique(iterable):
     d = {}
     for i in iterable:
         d[i] = None
-    return d.keys()
+    return list(d.keys())
 
 
 def cleanId(id):
@@ -23,7 +23,7 @@ def cleanId(id):
     __traceback_info__ = (id,)
     if id:
         # note: we provide the 'safe' param to get '/' encoded
-        if isinstance(id, unicode):
+        if isinstance(id, str):
             id = id.encode('utf-8')
         return url_quote(id, '').replace('-', '--').replace('%', '-')
     return ''
@@ -175,11 +175,11 @@ def getGroupsForPrincipal(principal, plugins, request=None):
 def safe_unicode(value, encoding='utf-8'):
     """Converts a value to unicode, even it is already a unicode string.
     """
-    if isinstance(value, unicode):
+    if isinstance(value, str):
         return value
-    elif isinstance(value, basestring):
+    elif isinstance(value, str):
         try:
-            value = unicode(value, encoding)
+            value = str(value, encoding)
         except UnicodeDecodeError:
             value = value.decode('utf-8', 'replace')
     return value

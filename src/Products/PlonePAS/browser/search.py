@@ -18,7 +18,7 @@ class PASSearchView(BrowserView):
             if key in criteria:
                 del criteria[key]
 
-        for (key, value) in criteria.items():
+        for (key, value) in list(criteria.items()):
             if not value:
                 del criteria[key]
 
@@ -36,7 +36,7 @@ class PASSearchView(BrowserView):
                 buf.update(output[id])
                 output[id] = buf
 
-        return output.values()
+        return list(output.values())
 
     def sort(self, results, sort_key):
         idnormalizer = queryUtility(IIDNormalizer)

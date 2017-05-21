@@ -30,7 +30,7 @@ from Products.PlonePAS.utils import cleanId
 from Products.PlonePAS.utils import safe_unicode
 from Products.PlonePAS.utils import scale_image
 from ZODB.POSException import ConflictError
-from cStringIO import StringIO
+from io import StringIO
 from plone.protect.interfaces import IDisableCSRFProtection
 from zExceptions import BadRequest
 from zope import event
@@ -60,7 +60,7 @@ def _unicodify_structure(value, charset=_marker):
     if isinstance(value, tuple):
         return tuple([_unicodify_structure(entry, charset) for entry in value])
     if isinstance(value, dict):
-        for key, val in value.items():
+        for key, val in list(value.items()):
             value[key] = _unicodify_structure(val, charset)
         return value
     return value
@@ -188,7 +188,7 @@ class MembershipTool(BaseTool):
 
         if REQUEST is not None:
             searchmap = REQUEST
-            for key, value in searchmap.items():
+            for key, value in list(searchmap.items()):
                 if isinstance(value, str):
                     searchmap[key] = _unicodify_structure(value)
         else:
@@ -202,7 +202,7 @@ class MembershipTool(BaseTool):
             del searchmap['name']
 
         user_search = dict(
-            [x for x in searchmap.items()
+            [x for x in list(searchmap.items())
              if x[0] in self.user_search_keywords and x[1]]
         )
 
@@ -272,7 +272,7 @@ class MembershipTool(BaseTool):
             if last_login_time:
                 last_login = member.getProperty('last_login_time', '')
 
-                if isinstance(last_login, basestring):
+                if isinstance(last_login, str):
                     # value is a string when member hasn't yet logged in
                     last_login = DateTime(last_login or '2000/01/01')
 

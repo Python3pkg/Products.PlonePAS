@@ -64,7 +64,7 @@ class MemberDataTool(BaseTool):
         portraits = self.portraits
         user_list = membertool.listMemberIds()
 
-        for tuple in portraits.items():
+        for tuple in list(portraits.items()):
             member_id = tuple[0]
             if member_id not in user_list:
                 self.portraits._delObject(member_id)
@@ -77,7 +77,7 @@ class MemberDataTool(BaseTool):
         '''
         members = self._members
 
-        for tuple in members.items():
+        for tuple in list(members.items()):
             member_name = tuple[0]
             del members[member_name]
 
@@ -92,7 +92,7 @@ class MemberDataTool(BaseTool):
         properties = self.propertyIds()
 
         # Scan members for old MemberData
-        for member_name, member_obj in members.items():
+        for member_name, member_obj in list(members.items()):
             values = {}
             if getattr(member_obj, "_is_new_kind", None):
                 continue        # Do not have to upgrade that object
@@ -135,7 +135,7 @@ class MemberDataTool(BaseTool):
 
         mtool = getToolByName(self, 'portal_membership')
 
-        for member_id in self._members.keys():
+        for member_id in list(self._members.keys()):
             user_wrapper = mtool.getMemberById(member_id)
 
             if user_wrapper is not None:
@@ -272,7 +272,7 @@ class MemberData(BaseMemberData):
         # XXX track values set to defer to default impl
         # property routing?
         modified = False
-        for k, v in mapping.items():
+        for k, v in list(mapping.items()):
             if v is None and not force_empty:
                 continue
             for sheet in sheets:
@@ -314,7 +314,7 @@ class MemberData(BaseMemberData):
             if sheet.hasProperty(id):
                 # Return the first one that has the property.
                 value = sheet.getProperty(id)
-                if isinstance(value, unicode):
+                if isinstance(value, str):
                     # XXX Temporarily work around the fact that
                     # property sheets blindly store and return
                     # unicode. This is sub-optimal and should be

@@ -25,7 +25,7 @@ from Products.PluggableAuthService.interfaces.plugins \
 from Products.PluggableAuthService.plugins.CookieAuthHelper \
     import CookieAuthHelper as BasePlugin
 from base64 import encodestring
-from urllib import quote
+from urllib.parse import quote
 from zope.interface import implementer
 
 

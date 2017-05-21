@@ -135,7 +135,7 @@ class PloneUser(PropertiedUser):
 
     @security.private
     def getOrderedPropertySheets(self):
-        return self._propertysheets.values()
+        return list(self._propertysheets.values())
 
     #################################
     # local roles plugin type delegation
@@ -213,7 +213,7 @@ class PloneUser(PropertiedUser):
                 continue
 
             update = {}
-            for (key, value) in properties.items():
+            for (key, value) in list(properties.items()):
                 if sheet.hasProperty(key):
                     update[key] = value
                     del properties[key]
@@ -225,7 +225,7 @@ class PloneUser(PropertiedUser):
         for sheet in self.getOrderedPropertySheets():
             if sheet.hasProperty(id):
                 value = sheet.getProperty(id)
-                if isinstance(value, unicode):
+                if isinstance(value, str):
                     # XXX Temporarily work around the fact that
                     # property sheets blindly store and return
                     # unicode. This is sub-optimal and should be

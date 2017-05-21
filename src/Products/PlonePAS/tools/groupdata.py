@@ -144,14 +144,14 @@ class GroupData(SimpleItem):
         """
         Return a list of group member ids
         """
-        return map(lambda x: x.getMemberId(), self.getGroupMembers())
+        return [x.getMemberId() for x in self.getGroupMembers()]
 
     @security.public
     def getAllGroupMemberIds(self):
         """
         Return a list of group member ids
         """
-        return map(lambda x: x.getMemberId(), self.getAllGroupMembers())
+        return [x.getMemberId() for x in self.getAllGroupMembers()]
 
     @security.public
     def getGroupMembers(self):
@@ -310,7 +310,7 @@ class GroupData(SimpleItem):
         # XXX track values set to defer to default impl
         # property routing?
         modified = False
-        for k, v in mapping.items():
+        for k, v in list(mapping.items()):
             for sheet in sheets:
                 if not sheet.hasProperty(k):
                     continue
@@ -510,9 +510,9 @@ class GroupData(SimpleItem):
                     break  # shadowed by read-only
         return 0
 
-    canAddToGroup = MemberData.canAddToGroup.im_func
-    canRemoveFromGroup = MemberData.canRemoveFromGroup.im_func
-    canAssignRole = MemberData.canAssignRole.im_func
+    canAddToGroup = MemberData.canAddToGroup.__func__
+    canRemoveFromGroup = MemberData.canRemoveFromGroup.__func__
+    canAssignRole = MemberData.canAssignRole.__func__
 
     # plugin getters
 

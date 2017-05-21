@@ -61,13 +61,13 @@ class PasswordPolicyPlugin(BasePlugin):
         if password is None:
             return []
         elif password == '':
-            return [{'id': 'password', 'error': _(u'Minimum 5 characters.')}]
+            return [{'id': 'password', 'error': _('Minimum 5 characters.')}]
         elif len(password) < 5:
             return [
                 {
                     'id': 'password',
                     'error': _(
-                        u'Your password must contain at least 5 characters.'
+                        'Your password must contain at least 5 characters.'
                     )
                 }
             ]

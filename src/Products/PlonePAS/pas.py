@@ -403,7 +403,7 @@ def _getAllLocalRoles(self, context):
     roles = {}
     for lrid, lrmanager in lrmanagers:
         newroles = lrmanager.getAllLocalRolesInContext(context)
-        for k, v in newroles.items():
+        for k, v in list(newroles.items()):
             if k not in roles:
                 roles[k] = set()
             roles[k].update(v)

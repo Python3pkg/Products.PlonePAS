@@ -32,7 +32,7 @@ class BasicOpsTestCase(base.TestCase):
             user_roles = list(u.getRoles())
         else:
             user_roles = list(u.getRolesInContext(target))
-        actual_roles = filter(lambda x: x not in non_roles, user_roles)
+        actual_roles = [x for x in user_roles if x not in non_roles]
         actual_roles.sort()
         wished_roles = list(roles)
         wished_roles.sort()
